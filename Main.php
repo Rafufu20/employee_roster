@@ -152,7 +152,7 @@ class Main {
                 $this->roster->remove($employeeNumber - 1);
                 echo "\nEmployee successfully removed.\n";
     
-                if ($this->roster->countEmployees() === 0) {
+                if ($this->roster->count() === 0) {
                     echo "No more employees left.\n";
                     readline("Press \"Enter\" key to return to the main menu.");
                     $this->entrance();
@@ -174,6 +174,7 @@ class Main {
             $this->deleteMenu();
         }
     }
+    
 
     private function otherMenu() {
         $this->clear();
@@ -224,13 +225,13 @@ class Main {
                     $this->roster->display();
                     break;
                 case 2:
-                    $this->roster->displayCommissionEmployees();
+                    $this->roster->displayCE();
                     break;
                 case 3:
-                    $this->roster->displayHourlyEmployees();
+                    $this->roster->displayHE();
                     break;
                 case 4:
-                    $this->roster->displayPieceWorkers();
+                    $this->roster->displayPE();
                     break;
                 case 0:
                     return $this->otherMenu();
@@ -258,16 +259,16 @@ class Main {
         try {
             switch ($choice) {
                 case 1:
-                    echo $this->roster->countEmployees() . "\n";
+                    echo $this->roster->count() . "\n";
                     break;
                 case 2:
-                    echo  $this->roster->countCommissionEmployees() . "\n";
+                    echo  $this->roster->countCE() . "\n";
                     break;
                 case 3:
-                    echo  $this->roster->countHourlyEmployees() . "\n";
+                    echo  $this->roster->countHE() . "\n";
                     break;
                 case 4:
-                    echo $this->roster->countPieceWorkers() . "\n";
+                    echo  $this->roster->countPE() . "\n";
                     break;
                 case 0:
                     return $this->otherMenu();
@@ -283,18 +284,27 @@ class Main {
         $this->countMenu();
     }
 
-    private function repeat() {
-        echo "Press \"y\" to add again or any other key to return to the main menu: ";
-        $confirm = strtolower(readline());
-        if ($confirm === 'y') {
-            $this->addMenu();
-        } else {
-            $this->entrance();
-        }
+    private function clear() {
+        echo "\033[2J\033[;H";
     }
 
-    private function clear() {
-        system('clear');
+    private function repeat() {
+        echo "Employee Added!\n";
+        if ($this->roster->count() < $this->size) {
+            $c = readline("Add more? (y to continue): ");
+            if (strtolower($c) == 'y') {
+                $this->addMenu();
+            } else {
+                $this->entrance();
+            }
+        } else {
+            echo "Roster is Full\n";
+            readline("Press \"Enter\" key to continue...");
+        }
     }
 }
+
+$entry = new Main();
+$entry->start();
+
 ?>
