@@ -26,7 +26,6 @@ class EmployeeRoster {
     public function remove(int $index) {
         if (isset($this->roster[$index])) {
             unset($this->roster[$index]);
-
         } else {
             echo "Invalid employee index.\n";
         }
@@ -36,7 +35,6 @@ class EmployeeRoster {
          return isset($this->roster[$index]);
     }
     
-
     public function availableSpace() {
         return $this->size - count($this->roster);
     }
@@ -51,15 +49,15 @@ class EmployeeRoster {
         }
     }
 
-    public function displayCE() {
+    public function displayCommissionEmployees() {
         $this->displayByType(CommissionEmployee::class, "No Commission Employees in the roster.");
     }
 
-    public function displayHE() {
+    public function displayHourlyEmployees() {
         $this->displayByType(HourlyEmployee::class, "No Hourly Employees in the roster.");
     }
 
-    public function displayPE() {
+    public function displayPieceWorkers() {
         $this->displayByType(PieceWorker::class, "No Piece Workers in the roster.");
     }
 
@@ -67,7 +65,7 @@ class EmployeeRoster {
         $found = false;
         foreach ($this->roster as $index => $employee) {
             if ($employee instanceof $type) {
-                echo "[" . ($index + 1) . "] " . $this->$employee->getDetails() . "\n";
+                echo "[" . ($index + 1) . "] " . $employee->getDetails() . "\n";
                 $found = true;
             }
         }
@@ -76,7 +74,7 @@ class EmployeeRoster {
         }
     }
 
-    public function count() {
+    public function countEmployees() {
         $count = count($this->roster);
         if ($count === 0) {
             echo "No employees in the roster.\n";
@@ -86,15 +84,15 @@ class EmployeeRoster {
         return $count;
     }
     
-    public function countCE() {
+    public function countCommissionEmployees() {
         $this->countByType(CommissionEmployee::class, "No Commission Employees in the roster.");
     }
     
-    public function countHE() {
+    public function countHourlyEmployees() {
         $this->countByType(HourlyEmployee::class, "No Hourly Employees in the roster.");
     }
     
-    public function countPE() {
+    public function countPieceWorkers() {
         $this->countByType(PieceWorker::class, "No Piece Workers in the roster.");
     }
     
@@ -108,18 +106,14 @@ class EmployeeRoster {
         return $count;
     }
     
-
     public function payroll() {
-        if(!empty($this->roster)){
-        foreach ($this->roster as $employee) {
-            echo $employee->getDetails() . " - Pay: " . $employee->calculatePay() . "\n";
-        }
-    }
-        else{
+        if (!empty($this->roster)) {
+            foreach ($this->roster as $employee) {
+                echo $employee->getDetails() . " - Pay: " . $employee->calculatePay() . "\n";
+            }
+        } else {
             echo "\nNo employee to calculate payroll\n";
         }
-        
-        
     }
 }
 
